@@ -1,0 +1,139 @@
+'use client'
+
+import React, { useEffect, useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/app/components/ui/card';
+import { QrCode } from 'lucide-react';
+
+interface CSEngineerProps {
+  engineer: {
+    engineerName: string;
+    status?: string;
+    availableAt?: Date | null;
+  } | null;
+}
+
+function getAfterHoursMessage(now: Date) {
+  const day = now.getDay(); // 0 = Sunday, 1 = Monday, ..., 5 = Friday, 6 = Saturday
+  const hour = now.getHours();
+  const min = now.getMinutes();
+  // Friday after 18:00, all Saturday, all Sunday, Monday before 08:00
+  if (
+    (day === 5 && hour >= 18) ||
+    day === 6 ||
+    day === 0 ||
+    (day === 1 && hour < 8)
+  ) {
+    return 'See you on Monday at 09:00 ☺️';
+  }
+  // Any other weekday after 18:00
+  if (hour >= 18) {
+    return 'See you tomorrow at 09:00 ☺️';
+  }
+  return null;
+}
+
+export default function CardCSEngineer({ engineer }: CSEngineerProps) {
+  const [engineerName, setEngineerName] = useState(engineer?.engineerName || 'Not Assigned');
+  const [status, setStatus] = useState(engineer?.status || 'available');
+  const [availableAt, setAvailableAt] = useState<Date | null>(engineer?.availableAt || null);
+  const [now, setNow] = useState(new Date());
+
+  useEffect(() => {
+    // Check if there's a name in localStorage
+    const storedName = localStorage.getItem('csEngineerName');
+    if (storedName) {
+      setEngineerName(storedName);
+    }
+
+    // Check if there's a status in localStorage
+    const storedStatus = localStorage.getItem('csEngineerStatus');
+    if (storedStatus) {
+      setStatus(storedStatus);
+    }
+
+    // Check if there's an availability time in localStorage
+    const storedAvailableAt = localStorage.getItem('csEngineerAvailableAt');
+    if (storedAvailableAt) {
+      setAvailableAt(new Date(storedAvailableAt));
+    }
+
+    // Update time every minute
+    const interval = setInterval(() => setNow(new Date()), 60000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Format the availability time
+  const formatAvailableAt = (date: Date | null) => {
+    if (!date) return '';
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    return `${hours}:${minutes}`;
+  };
+
+  // After-hours logic
+  const afterHoursMsg = getAfterHoursMessage(now);
+  const statusColor = afterHoursMsg || status === 'busy'
+    ? 'bg-yellow-100 text-yellow-800'
+    : 'bg-green-100 text-green-800';
+
+  // Determine indicator color
+  let indicatorColor = '';
+  if (afterHoursMsg || status !== 'available') {
+    // Use custom red for indicator
+    indicatorColor = '';
+  } else {
+    indicatorColor = 'bg-green-600';
+  }
+
+  return (
+    <Card className="max-w-md w-full shadow-xl relative">
+      <CardHeader className="text-center pb-4 space-y-2">
+        <CardTitle className="text-2xl font-bold text-gray-800">👋 Sawubona, Nandoca</CardTitle>
+        <CardDescription className="text-lg text-gray-700">Your CS Engineer is:</CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <div className="bg-[#CE0622] text-white rounded-lg p-6 flex justify-center items-center">
+          <p className="text-3xl font-bold text-center w-full">{engineerName}</p>
+        </div>
+        <div className={`p-3 rounded-lg flex flex-col items-center justify-center ${statusColor}`}>
+          {afterHoursMsg ? (
+            <div className="flex items-center gap-2">
+              <p className="font-semibold text-center">
+                {afterHoursMsg}
+              </p>
+              <span
+                className={`ml-2 h-3 w-3 rounded-full animate-pulse border-2 border-white shadow ${indicatorColor}`}
+                style={afterHoursMsg || status !== 'available' ? { backgroundColor: '#CE0622' } : {}}
+                aria-label="Status is up-to-date"
+                title="Status is up-to-date"
+              />
+            </div>
+          ) : (
+            <div className="flex items-center gap-2">
+              <p className="font-semibold text-center">
+                Status: {status === 'available' ? 'Available' : 'Busy'}
+              </p>
+              <span
+                className={`ml-2 h-3 w-3 rounded-full animate-pulse border-2 border-white shadow ${indicatorColor}`}
+                aria-label="Status is up-to-date"
+                title="Status is up-to-date"
+              />
+            </div>
+          )}
+          {(!afterHoursMsg && status === 'busy' && availableAt) && (
+            <p className="text-sm mt-1 text-center">
+              Available again at: {formatAvailableAt(availableAt)}
+            </p>
+          )}
+        </div>
+        {/* QR Code Placeholder */}
+        <div className="flex flex-col items-center mt-6">
+          <div className="border-2 border-dashed border-gray-300 rounded-xl p-6 bg-white shadow-inner flex flex-col items-center justify-center">
+            <QrCode className="w-16 h-16 text-gray-400" />
+          </div>
+          <span className="mt-2 text-sm text-gray-500 font-medium">Scan to log a ticket</span>
+        </div>
+      </CardContent>
+    </Card>
+  );
+} 
