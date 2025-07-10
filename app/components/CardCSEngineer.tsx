@@ -132,39 +132,39 @@ export default function CardCSEngineer({ engineer }: CSEngineerProps) {
           )}
         </div>
         {/* QR Code Placeholder */}
-        <div className="flex flex-col items-center mt-6">
+        <div className="flex flex-col items-center mt-4">
           <div 
             className="border-2 border-dashed border-gray-300 rounded-xl p-6 bg-white shadow-inner flex flex-col items-center justify-center cursor-pointer hover:border-[#CE0622] hover:bg-[#CE0622]/5 transition-all duration-200"
             onClick={() => window.open('https://nandoscentralsupport.zendesk.com/hc/en-gb/requests/new', '_blank')}
           >
-            <QrCode className="w-16 h-16 text-gray-400" />
+            <QrCode className="w-12 h-12 text-gray-400" />
           </div>
-          <span className="mt-2 text-sm text-gray-500 font-medium">Click to log a real ticket</span>
+          <span className="mt-1 text-xs text-gray-500 font-medium">Click to log a real ticket</span>
         </div>
         
         {/* Interactive Action Buttons */}
-        <div className="flex gap-3 mt-4">
+        <div className="flex gap-2 mt-3">
           <Button
             onClick={() => window.open('https://nandoscentralsupport.zendesk.com/hc/en-gb/requests/new', '_blank')}
-            className="flex-1 bg-[#CE0622] hover:bg-[#8a1829] text-white font-semibold py-3 transition-all duration-200 hover:scale-105"
+            className="flex-1 bg-[#CE0622] hover:bg-[#8a1829] text-white font-medium py-2 text-sm transition-all duration-200 hover:scale-105"
           >
-            <MessageSquare className="w-4 h-4 mr-2" />
+            <MessageSquare className="w-3 h-3 mr-1" />
             Log Real Ticket
           </Button>
           <Button
             onClick={() => setShowTicketLogger(true)}
             variant="outline"
-            className="flex-1 border-gray-300 text-gray-600 hover:bg-gray-50 font-semibold py-3 transition-all duration-200 hover:scale-105"
+            className="flex-1 border-gray-300 text-gray-600 hover:bg-gray-50 font-medium py-2 text-sm transition-all duration-200 hover:scale-105"
           >
-            <MessageSquare className="w-4 h-4 mr-2" />
+            <MessageSquare className="w-3 h-3 mr-1" />
             Demo Ticket
           </Button>
           <Button
             onClick={() => setShowFeedback(true)}
             variant="outline"
-            className="flex-1 border-[#CE0622] text-[#CE0622] hover:bg-[#CE0622] hover:text-white font-semibold py-3 transition-all duration-200 hover:scale-105"
+            className="flex-1 border-[#CE0622] text-[#CE0622] hover:bg-[#CE0622] hover:text-white font-medium py-2 text-sm transition-all duration-200 hover:scale-105"
           >
-            <Star className="w-4 h-4 mr-2" />
+            <Star className="w-3 h-3 mr-1" />
             Feedback
           </Button>
         </div>
@@ -181,4 +181,4 @@ export default function CardCSEngineer({ engineer }: CSEngineerProps) {
       />
     </Card>
   );
-} 
+}
