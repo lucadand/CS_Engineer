@@ -100,7 +100,7 @@ export default function CardCSEngineer({ engineer }: CSEngineerProps) {
         <div className="bg-[#CE0622] text-white rounded-lg p-6 flex justify-center items-center">
           <p className="text-3xl font-bold text-center w-full">{engineerName}</p>
         </div>
-        <div className={`p-3 rounded-lg flex flex-col items-center justify-center ${statusColor}`}>
+        <div className={`p-4 rounded-lg flex flex-col items-center justify-center ${statusColor}`}>
           {afterHoursMsg ? (
             <div className="flex items-center gap-2">
               <p className="font-semibold text-center">
@@ -132,21 +132,21 @@ export default function CardCSEngineer({ engineer }: CSEngineerProps) {
           )}
         </div>
         {/* QR Code Placeholder */}
-        <div className="flex flex-col items-center mt-4">
+        <div className="flex flex-col items-center">
           <div 
             className="border-2 border-dashed border-gray-300 rounded-xl p-6 bg-white shadow-inner flex flex-col items-center justify-center cursor-pointer hover:border-[#CE0622] hover:bg-[#CE0622]/5 transition-all duration-200"
             onClick={() => window.open('https://nandoscentralsupport.zendesk.com/hc/en-gb/requests/new', '_blank')}
           >
             <QrCode className="w-12 h-12 text-gray-400" />
           </div>
-          <span className="mt-1 text-xs text-gray-500 font-medium">Click to log a real ticket</span>
+          <span className="mt-2 text-xs text-gray-500 font-medium">Click to log a real ticket</span>
         </div>
         
         {/* Interactive Action Buttons */}
-        <div className="flex gap-2 mt-3">
+        <div className="flex gap-2">
           <Button
             onClick={() => window.open('https://nandoscentralsupport.zendesk.com/hc/en-gb/requests/new', '_blank')}
-            className="flex-1 bg-[#CE0622] hover:bg-[#8a1829] text-white font-medium py-2 text-sm transition-all duration-200 hover:scale-105"
+            className="flex-1 bg-[#CE0622] hover:bg-[#8a1829] text-white font-medium py-3 text-sm transition-all duration-200 hover:scale-105"
           >
             <MessageSquare className="w-3 h-3 mr-1" />
             Log Real Ticket
@@ -154,7 +154,7 @@ export default function CardCSEngineer({ engineer }: CSEngineerProps) {
           <Button
             onClick={() => setShowTicketLogger(true)}
             variant="outline"
-            className="flex-1 border-gray-300 text-gray-600 hover:bg-gray-50 font-medium py-2 text-sm transition-all duration-200 hover:scale-105"
+            className="flex-1 border-gray-300 text-gray-600 hover:bg-gray-50 font-medium py-3 text-sm transition-all duration-200 hover:scale-105"
           >
             <MessageSquare className="w-3 h-3 mr-1" />
             Demo Ticket
@@ -162,7 +162,7 @@ export default function CardCSEngineer({ engineer }: CSEngineerProps) {
           <Button
             onClick={() => setShowFeedback(true)}
             variant="outline"
-            className="flex-1 border-[#CE0622] text-[#CE0622] hover:bg-[#CE0622] hover:text-white font-medium py-2 text-sm transition-all duration-200 hover:scale-105"
+            className="flex-1 border-[#CE0622] text-[#CE0622] hover:bg-[#CE0622] hover:text-white font-medium py-3 text-sm transition-all duration-200 hover:scale-105"
           >
             <Star className="w-3 h-3 mr-1" />
             Feedback
