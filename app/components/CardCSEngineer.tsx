@@ -77,6 +77,7 @@ export default function CardCSEngineer({ engineer }: CSEngineerProps) {
 
   // After-hours logic
   const afterHoursMsg = getAfterHoursMessage(now);
+  const isWeekend = now.getDay() === 0 || now.getDay() === 6; // Sunday = 0, Saturday = 6
   const statusColor = afterHoursMsg || status === 'busy'
     ? 'bg-yellow-100 text-yellow-800'
     : 'bg-green-100 text-green-800';
@@ -100,6 +101,18 @@ export default function CardCSEngineer({ engineer }: CSEngineerProps) {
         <div className="bg-[#CE0622] text-white rounded-lg p-6 flex justify-center items-center">
           <p className="text-3xl font-bold text-center w-full">{engineerName}</p>
         </div>
+        
+        {/* Barci Busy Image - Only show during weekdays when status is busy */}
+        {status === 'busy' && !afterHoursMsg && !isWeekend && (
+          <div className="flex justify-center py-2">
+            <img
+              src="/Barci busy.png"
+              alt="Barci is busy"
+              className="w-32 h-32 object-contain"
+            />
+          </div>
+        )}
+        
         <div className={`p-4 rounded-lg flex flex-col items-center justify-center ${statusColor}`}>
           {afterHoursMsg ? (
             <div className="flex items-center gap-2">
