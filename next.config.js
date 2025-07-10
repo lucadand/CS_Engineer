@@ -6,6 +6,7 @@ const nextConfig = {
   // Disable experimental features that might cause issues
   experimental: {
     appDir: true,
+    serverActions: true,
   },
   
   // Configure webpack for WebContainer environment
