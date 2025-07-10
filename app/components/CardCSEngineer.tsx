@@ -156,28 +156,21 @@ export default function CardCSEngineer({ engineer }: CSEngineerProps) {
         </div>
         
         {/* Interactive Action Buttons */}
-        <div className="flex gap-2">
-          <Button
-            onClick={() => window.open('https://nandoscentralsupport.zendesk.com/hc/en-gb/requests/new', '_blank')}
-            className="flex-1 bg-[#CE0622] hover:bg-[#8a1829] text-white font-medium py-3 text-sm transition-all duration-200 hover:scale-105"
-          >
-            <MessageSquare className="w-3 h-3 mr-1" />
-            Log Real Ticket
-          </Button>
+        <div className="flex gap-3">
           <Button
             onClick={() => setShowTicketLogger(true)}
             variant="outline"
-            className="flex-1 border-gray-300 text-gray-600 hover:bg-gray-50 font-medium py-3 text-sm transition-all duration-200 hover:scale-105"
+            className="flex-1 border-gray-300 text-gray-600 hover:bg-gray-50 font-medium py-4 text-sm transition-all duration-200 hover:scale-105"
           >
-            <MessageSquare className="w-3 h-3 mr-1" />
+            <MessageSquare className="w-4 h-4 mr-2" />
             Demo Ticket
           </Button>
           <Button
             onClick={() => setShowFeedback(true)}
             variant="outline"
-            className="flex-1 border-[#CE0622] text-[#CE0622] hover:bg-[#CE0622] hover:text-white font-medium py-3 text-sm transition-all duration-200 hover:scale-105"
+            className="flex-1 border-[#CE0622] text-[#CE0622] hover:bg-[#CE0622] hover:text-white font-medium py-4 text-sm transition-all duration-200 hover:scale-105"
           >
-            <Star className="w-3 h-3 mr-1" />
+            <Star className="w-4 h-4 mr-2" />
             Feedback
           </Button>
         </div>
