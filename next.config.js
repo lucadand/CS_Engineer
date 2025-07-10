@@ -1,8 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Use JavaScript-based SWC compiler for WebContainer compatibility
-  swcMinify: false,
-  
   // Disable experimental features that might cause issues
   experimental: {
     appDir: true,
