@@ -1,9 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Disable experimental features that might cause issues
+  // Server Actions are now stable in Next.js 14+
   experimental: {
     appDir: true,
-    serverActions: true,
   },
   
   // Configure webpack for WebContainer environment
