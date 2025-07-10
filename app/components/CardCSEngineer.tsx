@@ -2,7 +2,10 @@
 
 import React, { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/app/components/ui/card';
-import { QrCode } from 'lucide-react';
+import { QrCode, MessageSquare, Star } from 'lucide-react';
+import { Button } from '@/app/components/ui/button';
+import TicketLogger from './TicketLogger';
+import FeedbackSystem from './FeedbackSystem';
 
 interface CSEngineerProps {
   engineer: {
@@ -37,6 +40,8 @@ export default function CardCSEngineer({ engineer }: CSEngineerProps) {
   const [status, setStatus] = useState(engineer?.status || 'available');
   const [availableAt, setAvailableAt] = useState<Date | null>(engineer?.availableAt || null);
   const [now, setNow] = useState(new Date());
+  const [showTicketLogger, setShowTicketLogger] = useState(false);
+  const [showFeedback, setShowFeedback] = useState(false);
 
   useEffect(() => {
     // Check if there's a name in localStorage
@@ -128,12 +133,44 @@ export default function CardCSEngineer({ engineer }: CSEngineerProps) {
         </div>
         {/* QR Code Placeholder */}
         <div className="flex flex-col items-center mt-6">
-          <div className="border-2 border-dashed border-gray-300 rounded-xl p-6 bg-white shadow-inner flex flex-col items-center justify-center">
+          <div 
+            className="border-2 border-dashed border-gray-300 rounded-xl p-6 bg-white shadow-inner flex flex-col items-center justify-center cursor-pointer hover:border-[#CE0622] hover:bg-[#CE0622]/5 transition-all duration-200"
+            onClick={() => setShowTicketLogger(true)}
+          >
             <QrCode className="w-16 h-16 text-gray-400" />
           </div>
-          <span className="mt-2 text-sm text-gray-500 font-medium">Scan to log a ticket</span>
+          <span className="mt-2 text-sm text-gray-500 font-medium">Click to log a ticket</span>
+        </div>
+        
+        {/* Interactive Action Buttons */}
+        <div className="flex gap-3 mt-4">
+          <Button
+            onClick={() => setShowTicketLogger(true)}
+            className="flex-1 bg-[#CE0622] hover:bg-[#8a1829] text-white font-semibold py-3 transition-all duration-200 hover:scale-105"
+          >
+            <MessageSquare className="w-4 h-4 mr-2" />
+            Log Ticket
+          </Button>
+          <Button
+            onClick={() => setShowFeedback(true)}
+            variant="outline"
+            className="flex-1 border-[#CE0622] text-[#CE0622] hover:bg-[#CE0622] hover:text-white font-semibold py-3 transition-all duration-200 hover:scale-105"
+          >
+            <Star className="w-4 h-4 mr-2" />
+            Feedback
+          </Button>
         </div>
       </CardContent>
+      
+      <TicketLogger 
+        isOpen={showTicketLogger} 
+        onClose={() => setShowTicketLogger(false)} 
+      />
+      
+      <FeedbackSystem 
+        isOpen={showFeedback} 
+        onClose={() => setShowFeedback(false)} 
+      />
     </Card>
   );
 } 

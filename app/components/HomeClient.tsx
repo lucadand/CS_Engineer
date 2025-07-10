@@ -6,6 +6,7 @@ import EngineerForm from "@/app/components/EngineerForm";
 import { Button } from "@/app/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/app/components/ui/dialog";
 import { Settings, Pause, Play } from "lucide-react";
+import ParticleSystem from "./ParticleSystem";
 
 function formatDateTime(date: Date) {
   return date.toLocaleString('en-GB', {
@@ -24,6 +25,7 @@ export default function HomeClient({ engineer }: { engineer: any }) {
   const [forceBusy, setForceBusy] = useState(false);
   const [status, setStatus] = useState<string>('available');
   const [now, setNow] = useState(new Date());
+  const [showStatusParticles, setShowStatusParticles] = useState(false);
 
   useEffect(() => {
     // Get status from localStorage on mount
@@ -37,12 +39,14 @@ export default function HomeClient({ engineer }: { engineer: any }) {
   const handleSetBusy = () => {
     setForceBusy(true);
     setShowForm(true);
+    setShowStatusParticles(true);
   };
 
   const handleSetOnline = () => {
     localStorage.setItem('csEngineerStatus', 'available');
     localStorage.removeItem('csEngineerAvailableAt');
     setStatus('available');
+    setShowStatusParticles(true);
     window.location.reload();
   };
 
@@ -107,6 +111,12 @@ export default function HomeClient({ engineer }: { engineer: any }) {
           <CardCSEngineer engineer={engineer} />
         </div>
       </div>
+      
+      <ParticleSystem
+        trigger={showStatusParticles}
+        type="success"
+        onComplete={() => setShowStatusParticles(false)}
+      />
     </main>
   );
 } 
