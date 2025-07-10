@@ -135,21 +135,29 @@ export default function CardCSEngineer({ engineer }: CSEngineerProps) {
         <div className="flex flex-col items-center mt-6">
           <div 
             className="border-2 border-dashed border-gray-300 rounded-xl p-6 bg-white shadow-inner flex flex-col items-center justify-center cursor-pointer hover:border-[#CE0622] hover:bg-[#CE0622]/5 transition-all duration-200"
-            onClick={() => setShowTicketLogger(true)}
+            onClick={() => window.open('https://nandoscentralsupport.zendesk.com/hc/en-gb/requests/new', '_blank')}
           >
             <QrCode className="w-16 h-16 text-gray-400" />
           </div>
-          <span className="mt-2 text-sm text-gray-500 font-medium">Click to log a ticket</span>
+          <span className="mt-2 text-sm text-gray-500 font-medium">Click to log a real ticket</span>
         </div>
         
         {/* Interactive Action Buttons */}
         <div className="flex gap-3 mt-4">
           <Button
-            onClick={() => setShowTicketLogger(true)}
+            onClick={() => window.open('https://nandoscentralsupport.zendesk.com/hc/en-gb/requests/new', '_blank')}
             className="flex-1 bg-[#CE0622] hover:bg-[#8a1829] text-white font-semibold py-3 transition-all duration-200 hover:scale-105"
           >
             <MessageSquare className="w-4 h-4 mr-2" />
-            Log Ticket
+            Log Real Ticket
+          </Button>
+          <Button
+            onClick={() => setShowTicketLogger(true)}
+            variant="outline"
+            className="flex-1 border-gray-300 text-gray-600 hover:bg-gray-50 font-semibold py-3 transition-all duration-200 hover:scale-105"
+          >
+            <MessageSquare className="w-4 h-4 mr-2" />
+            Demo Ticket
           </Button>
           <Button
             onClick={() => setShowFeedback(true)}
