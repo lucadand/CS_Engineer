@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import CardCSEngineer from "@/app/components/CardCSEngineer";
 import EngineerForm from "@/app/components/EngineerForm";
+import ParticleSystem from "@/app/components/ParticleSystem";
 import { Button } from "@/app/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/app/components/ui/dialog";
 import { Settings, Pause, Play } from "lucide-react";
@@ -17,6 +18,7 @@ export default function HomeClient({ engineer }: { engineer: any }) {
   const [showForm, setShowForm] = useState(false);
   const [forceBusy, setForceBusy] = useState(false);
   const [status, setStatus] = useState<string>('available');
+  const [showStatusParticles, setShowStatusParticles] = useState(false);
   const [now, setNow] = useState(new Date());
 
   useEffect(() => {
