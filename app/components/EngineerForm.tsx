@@ -112,7 +112,7 @@ export default function EngineerForm({ onClose, forceBusy }: EngineerFormProps) 
       )}
       <Button
         type="submit"
-        className="w-full h-12 text-xl font-semibold bg-[#CE0622] hover:bg-[#8a1829]"
+        className="w-full h-12 text-xl font-semibold bg-[#CE0622] hover:bg-[#8a1829] transition-all duration-200 hover:scale-105"
       >
         {forceBusy ? 'Update time' : 'Update Engineer'}
       </Button>

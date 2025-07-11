@@ -116,28 +116,9 @@ export default function FeedbackSystem({ isOpen, onClose }: FeedbackSystemProps)
             </div>
           ) : (
             <CardContent className="space-y-6 p-6">
-              {/* Star Rating */}
-              <div className="space-y-3">
-                <h4 className="font-semibold text-gray-700 text-center">Rate your experience</h4>
-                <div className="flex justify-center gap-2">
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <button
-                      key={star}
-                      onClick={() => handleStarClick(star)}
-                      className="transition-all duration-200 hover:scale-110"
-                    >
-                      <Star
-                        className={`w-8 h-8 ${
-                          star <= selectedRating
-                            ? 'text-yellow-400 fill-yellow-400'
-                            : 'text-gray-300 hover:text-yellow-200'
-                        }`}
-                      />
-                    </button>
-                  ))}
-                </div>
-              </div>
-
+                  
+                           
+          
               {/* Emoji Reactions */}
               <div className="space-y-3">
                 <h4 className="font-semibold text-gray-700 text-center">Quick reaction</h4>

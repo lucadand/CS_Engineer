@@ -42,6 +42,11 @@ export default function CardCSEngineer({ engineer }: CSEngineerProps) {
   const [now, setNow] = useState<Date | null>(null);
   const [showTicketLogger, setShowTicketLogger] = useState(false);
   const [showFeedback, setShowFeedback] = useState(false);
+  const [isLunch, setIsLunch] = useState(false);
+
+  // Food emojis for lunch mode
+  const FOOD_EMOJIS = ['🍕', '🍔', '🥪', '🍣', '🍜', '🥗', '🍟', '🌮', '🍩', '🍦', '🍱', '🍛', '🍉', '🍪', '🍿'];
+  const [lunchEmoji, setLunchEmoji] = useState(FOOD_EMOJIS[0]);
 
   useEffect(() => {
     // Check if there's a name in localStorage
@@ -62,6 +67,10 @@ export default function CardCSEngineer({ engineer }: CSEngineerProps) {
       setAvailableAt(new Date(storedAvailableAt));
     }
 
+    // Check if lunch mode is active
+    const isLunch = localStorage.getItem('csEngineerLunch') === 'true';
+    setIsLunch(isLunch);
+
     setNow(new Date());
     const interval = setInterval(() => {
       const current = new Date();
@@ -75,13 +84,24 @@ export default function CardCSEngineer({ engineer }: CSEngineerProps) {
           // Set status to available
           localStorage.setItem('csEngineerStatus', 'available');
           localStorage.removeItem('csEngineerAvailableAt');
+          localStorage.removeItem('csEngineerLunch');
           setStatus('available');
           setAvailableAt(null);
+          setIsLunch(false);
         }
       }
     }, 60000);
     return () => clearInterval(interval);
   }, []);
+
+  // Lunch emoji cycling logic
+  useEffect(() => {
+    if (isLunch) {
+      let idx = parseInt(localStorage.getItem('csEngineerLunchEmojiIdx') || '0', 10);
+      if (isNaN(idx) || idx < 0 || idx >= FOOD_EMOJIS.length) idx = 0;
+      setLunchEmoji(FOOD_EMOJIS[idx]);
+    }
+  }, [isLunch]);
 
   // Format the availability time
   const formatAvailableAt = (date: Date | null) => {
@@ -123,13 +143,19 @@ export default function CardCSEngineer({ engineer }: CSEngineerProps) {
         
         {/* Barci Busy Image - Only show during weekdays when status is busy */}
         {status === 'busy' && !afterHoursMsg && !isWeekend && (
-          <div className="flex justify-center py-2">
-            <img
-              src="/Barci busy.png"
-              alt="Barci is busy"
-              className="w-32 h-32 object-contain"
-            />
-          </div>
+          isLunch ? (
+            <div className="flex justify-center py-2">
+              <span className="text-7xl animate-bounce drop-shadow-lg" title="Lunch time!">{lunchEmoji}</span>
+            </div>
+          ) : (
+            <div className="flex justify-center py-2">
+              <img
+                src="/Barci busy.png"
+                alt="Barci is busy"
+                className="w-32 h-32 object-contain"
+              />
+            </div>
+          )
         )}
         
         <div className={`p-4 rounded-lg flex flex-col items-center justify-center ${statusColor}`}>
@@ -146,18 +172,31 @@ export default function CardCSEngineer({ engineer }: CSEngineerProps) {
               />
             </div>
           ) : (
-            <div className="flex items-center gap-2">
-              <p className="font-semibold text-center">
-                Status: {status === 'available' ? 'Available' : 'Busy'}
-              </p>
-              <span
-                className={`ml-2 h-3 w-3 rounded-full animate-pulse border-2 border-white shadow ${indicatorColor}`}
-                aria-label="Status is up-to-date"
-                title="Status is up-to-date"
-              />
-            </div>
+            isLunch && status === 'busy' ? (
+              <div className="flex items-center gap-2">
+                <p className="font-semibold text-center">
+                  Back from lunch at: {formatAvailableAt(availableAt)}
+                </p>
+                <span
+                  className={`ml-2 h-3 w-3 rounded-full animate-pulse border-2 border-white shadow ${indicatorColor}`}
+                  aria-label="Status is up-to-date"
+                  title="Status is up-to-date"
+                />
+              </div>
+            ) : (
+              <div className="flex items-center gap-2">
+                <p className="font-semibold text-center">
+                  Status: {status === 'available' ? 'Available' : 'Busy'}
+                </p>
+                <span
+                  className={`ml-2 h-3 w-3 rounded-full animate-pulse border-2 border-white shadow ${indicatorColor}`}
+                  aria-label="Status is up-to-date"
+                  title="Status is up-to-date"
+                />
+              </div>
+            )
           )}
-          {(!afterHoursMsg && status === 'busy' && availableAt) && (
+          {(!afterHoursMsg && status === 'busy' && availableAt && !(isLunch && status === 'busy')) && (
             <p className="text-sm mt-1 text-center">
               Available again at: {formatAvailableAt(availableAt)}
             </p>
