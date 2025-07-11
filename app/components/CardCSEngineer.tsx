@@ -39,7 +39,7 @@ export default function CardCSEngineer({ engineer }: CSEngineerProps) {
   const [engineerName, setEngineerName] = useState(engineer?.engineerName || 'Not Assigned');
   const [status, setStatus] = useState(engineer?.status || 'available');
   const [availableAt, setAvailableAt] = useState<Date | null>(engineer?.availableAt || null);
-  const [now, setNow] = useState(new Date());
+  const [now, setNow] = useState<Date | null>(null);
   const [showTicketLogger, setShowTicketLogger] = useState(false);
   const [showFeedback, setShowFeedback] = useState(false);
 
@@ -62,8 +62,24 @@ export default function CardCSEngineer({ engineer }: CSEngineerProps) {
       setAvailableAt(new Date(storedAvailableAt));
     }
 
-    // Update time every minute
-    const interval = setInterval(() => setNow(new Date()), 60000);
+    setNow(new Date());
+    const interval = setInterval(() => {
+      const current = new Date();
+      setNow(current);
+      // Auto-update status if availableAt has passed
+      const storedAvailableAt = localStorage.getItem('csEngineerAvailableAt');
+      const storedStatus = localStorage.getItem('csEngineerStatus');
+      if (storedStatus === 'busy' && storedAvailableAt) {
+        const availableAtDate = new Date(storedAvailableAt);
+        if (current > availableAtDate) {
+          // Set status to available
+          localStorage.setItem('csEngineerStatus', 'available');
+          localStorage.removeItem('csEngineerAvailableAt');
+          setStatus('available');
+          setAvailableAt(null);
+        }
+      }
+    }, 60000);
     return () => clearInterval(interval);
   }, []);
 
@@ -76,17 +92,20 @@ export default function CardCSEngineer({ engineer }: CSEngineerProps) {
   };
 
   // After-hours logic
-  const afterHoursMsg = getAfterHoursMessage(now);
-  const isWeekend = now.getDay() === 0 || now.getDay() === 6; // Sunday = 0, Saturday = 6
+  const afterHoursMsg = getAfterHoursMessage(now || new Date());
+  const isWeekend = (now || new Date()).getDay() === 0 || (now || new Date()).getDay() === 6; // Sunday = 0, Saturday = 6
   const statusColor = afterHoursMsg || status === 'busy'
     ? 'bg-yellow-100 text-yellow-800'
     : 'bg-green-100 text-green-800';
 
   // Determine indicator color
   let indicatorColor = '';
-  if (afterHoursMsg || status !== 'available') {
-    // Use custom red for indicator
+  if (afterHoursMsg) {
+    // No indicator color for after hours
     indicatorColor = '';
+  } else if (status === 'busy') {
+    // Red for busy mode
+    indicatorColor = 'bg-[#CE0622]';
   } else {
     indicatorColor = 'bg-green-600';
   }

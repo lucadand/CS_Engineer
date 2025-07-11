@@ -6,7 +6,7 @@ import { Card, CardContent } from '@/app/components/ui/card';
 import { Textarea } from '@/app/components/ui/textarea';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/app/components/ui/dialog';
 import { Star, Send, ThumbsUp, ThumbsDown, Heart, Zap } from 'lucide-react';
-import ParticleSystem from './ParticleSystem';
+import confetti from 'canvas-confetti';
 
 interface FeedbackSystemProps {
   isOpen: boolean;
@@ -14,9 +14,9 @@ interface FeedbackSystemProps {
 }
 
 const EMOJI_REACTIONS = [
-  { emoji: '😊', label: 'Great', color: 'text-green-500' },
-  { emoji: '😐', label: 'Okay', color: 'text-yellow-500' },
   { emoji: '😞', label: 'Poor', color: 'text-red-500' },
+  { emoji: '😐', label: 'Okay', color: 'text-yellow-500' },
+  { emoji: '😊', label: 'Great', color: 'text-green-500' },
   { emoji: '🔥', label: 'Amazing', color: 'text-orange-500' },
   { emoji: '💯', label: 'Perfect', color: 'text-purple-500' }
 ];
@@ -62,6 +62,13 @@ export default function FeedbackSystem({ isOpen, onClose }: FeedbackSystemProps)
     localStorage.setItem('userFeedback', JSON.stringify(existingFeedback));
     
     setIsSubmitting(false);
+    // Trigger confetti burst
+    confetti({
+      particleCount: 120,
+      spread: 90,
+      origin: { y: 0.6 },
+      zIndex: 9999
+    });
     setShowThankYou(true);
     setShowParticles(true);
     
@@ -139,7 +146,7 @@ export default function FeedbackSystem({ isOpen, onClose }: FeedbackSystemProps)
                     <button
                       key={reaction.emoji}
                       onClick={() => handleEmojiClick(reaction.emoji)}
-                      className={`p-3 rounded-full border-2 transition-all duration-200 hover:scale-110 ${
+                      className={`w-14 h-14 aspect-square p-3 rounded-full border-2 flex items-center justify-center transition-all duration-200 hover:scale-110 ${
                         selectedEmoji === reaction.emoji
                           ? 'border-[#CE0622] bg-[#CE0622]/10 scale-110'
                           : 'border-gray-200 hover:border-[#CE0622]/50'
@@ -184,12 +191,6 @@ export default function FeedbackSystem({ isOpen, onClose }: FeedbackSystemProps)
           )}
         </DialogContent>
       </Dialog>
-
-      <ParticleSystem
-        trigger={showParticles}
-        type={showThankYou ? 'celebration' : selectedEmoji ? 'feedback' : 'success'}
-        onComplete={() => setShowParticles(false)}
-      />
     </>
   );
 }

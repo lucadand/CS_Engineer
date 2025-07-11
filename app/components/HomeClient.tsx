@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from "react";
 import CardCSEngineer from "@/app/components/CardCSEngineer";
 import EngineerForm from "@/app/components/EngineerForm";
-import ParticleSystem from "@/app/components/ParticleSystem";
 import { Button } from "@/app/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/app/components/ui/dialog";
 import { Settings, Pause, Play } from "lucide-react";
@@ -25,8 +24,8 @@ export default function HomeClient({ engineer }: { engineer: any }) {
     // Get status from localStorage on mount
     const storedStatus = localStorage.getItem('csEngineerStatus');
     if (storedStatus) setStatus(storedStatus);
-    // Update time every minute
-    const interval = setInterval(() => setNow(new Date()), 60000);
+    // Update time every second
+    const interval = setInterval(() => setNow(new Date()), 1000);
     return () => clearInterval(interval);
   }, []);
 
@@ -104,11 +103,6 @@ export default function HomeClient({ engineer }: { engineer: any }) {
         </div>
       </div>
       
-      <ParticleSystem
-        trigger={showStatusParticles}
-        type="success"
-        onComplete={() => setShowStatusParticles(false)}
-      />
     </main>
   );
 } 

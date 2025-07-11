@@ -9,7 +9,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/app/components/ui/textarea';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/app/components/ui/dialog';
 import { Ticket, Send, Clock, User, AlertCircle } from 'lucide-react';
-import ParticleSystem from './ParticleSystem';
 
 interface TicketLoggerProps {
   isOpen: boolean;
@@ -244,12 +243,6 @@ export default function TicketLogger({ isOpen, onClose }: TicketLoggerProps) {
           )}
         </DialogContent>
       </Dialog>
-
-      <ParticleSystem
-        trigger={showParticles}
-        type="celebration"
-        onComplete={() => setShowParticles(false)}
-      />
     </>
   );
 }
