@@ -1,6 +1,6 @@
 # CS Engineer
 
-A modern web application for managing and displaying Customer Support Engineer assignments at Nando's UK Head Office.
+A modern web application for managing and displaying CS Engineer assignments at Nando's UK Erico House.
 
 ## Features
 
@@ -9,7 +9,7 @@ A modern web application for managing and displaying Customer Support Engineer a
 - **Admin Panel**: Assign engineers for specific dates via a secure admin page.
 - **Ticket Logging**: Log demo support tickets with categories and priorities.
 - **Feedback System**: Collect user feedback with ratings, emojis, and confetti celebration (using canvas-confetti).
-- **Responsive UI**: Beautiful, mobile-first design using Tailwind CSS and DaisyUI.
+- **Responsive UI**: Mobile-first design using Tailwind CSS and DaisyUI.
 - **Authentication**: (Planned/Optional) NextAuth integration for secure admin access.
 
 ## Tech Stack
